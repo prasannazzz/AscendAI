@@ -6,8 +6,8 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: 'blue',
-        tabBarInactiveTintColor: 'gray',  // Added to customize the inactive tab icon color
-        headerShown: false,  // Hides header globally for all screens
+        tabBarInactiveTintColor: 'gray',  
+        headerShown: false,  
       }}
     >
       <Tabs.Screen
@@ -24,11 +24,11 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <FontAwesome size={28} name="cog" color={color} />,
         }}
       />
-      <Tabs.Screen
-        name="profile"
+       <Tabs.Screen
+        name="skills"
         options={{
-          title: 'Profile',
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="user" color={color} />,
+          title: 'skills',
+          tabBarIcon: ({ color }) => <FontAwesome size={24} name="heart" color={color} />,  // Fixed icon name
         }}
       />
       <Tabs.Screen
@@ -38,27 +38,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <FontAwesome size={28} name="book" color={color} />,
         }}
       />
-      <Tabs.Screen
-        name="AIhiring"
-        options={{
-          title: 'AI Hiring',
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="user" color={color} />,
-        }}
-      />
-      {/* <Tabs.Screen
-        name="Leaderboard"
-        options={{
-          title: 'Leaderboard',
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="bulb" color={color} />,
-        }}
-      /> */}
-      <Tabs.Screen
-        name="community"
-        options={{
-          title: 'Community',
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="users" color={color} />,  // Fixed icon name
-        }}
-      />
+     
     </Tabs>
   );
 }
