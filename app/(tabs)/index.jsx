@@ -1,18 +1,23 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+const HomeScreen = () => {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.text}>Welcome to the Home Screen</Text>
+    </View>
+  );
+};
 
-export default function HomeScreen() {
-  return 
-   (
-      <View>
-         <Text>HomeScreen</Text>
-         <Redirect href= {'login'}/>
-      </View>
-     
-   )
-   
-  }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    fontSize: 24,
+  },
+});
+
+export default HomeScreen;
