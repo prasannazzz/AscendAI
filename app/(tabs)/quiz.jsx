@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -85,12 +86,28 @@ const quizQuestions = [
 const QuizPage = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
+  const [questions, setQuestions] = useState(null);
   const [score, setScore] = useState(0);
+  const subskills =['React']
   const [showModal, setShowModal] = useState(false);
 
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
   };
+  // useEffect(() => {
+    // const fetchQuestions = async () => {
+    //   try {
+    //     const response = await axios.get(`http://localhost:5000/api/v1/questions/get-quiz`,{subskills})
+    //     console.log(response)
+    //     setQuestions(response)
+    //   } catch (error) {
+    //     setError('Error fetching quiz questions');
+    //     console.error(error);
+    //   }
+    // };
+
+    // fetchQuestions();
+  // }, []);
 
   const handleNextQuestion = () => {
     if (selectedOption === null) {
