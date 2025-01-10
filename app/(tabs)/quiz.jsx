@@ -1,109 +1,201 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Modal,
+  Alert,
+} from "react-native";
 
-const questions = [
+const quizQuestions = [
   {
-    question: "What does 'HTML' stand for?",
-    options: ["HyperText Markup Language", "HighText Machine Language", "Hyper Tool Markup Language", "None of the Above"],
-    answer: "HyperText Markup Language",
+    question: "Which of the following is part of the MERN stack?",
+    options: ["MongoDB", "Angular", "Laravel", "Ruby"],
+    answer: "MongoDB",
   },
   {
-    question: "Who developed the C programming language?",
-    options: ["Dennis Ritchie", "James Gosling", "Bjarne Stroustrup", "Ken Thompson"],
-    answer: "Dennis Ritchie",
+    question: "What does React.js primarily help with in web development?",
+    options: [
+      "Database Management",
+      "Building User Interfaces",
+      "Server-Side Rendering",
+      "Image Optimization",
+    ],
+    answer: "Building User Interfaces",
   },
   {
-    question: "Which of the following is a programming language?",
-    options: ["HTML", "CSS", "JavaScript", "SQL"],
-    answer: "JavaScript",
+    question: "Which CSS framework is known for utility-first design?",
+    options: ["Bootstrap", "Tailwind CSS", "Foundation", "Materialize"],
+    answer: "Tailwind CSS",
+  },
+  {
+    question: "What is React Native used for?",
+    options: [
+      "Web Development",
+      "Desktop App Development",
+      "Mobile App Development",
+      "Game Development",
+    ],
+    answer: "Mobile App Development",
+  },
+  {
+    question: "In Node.js, which module is used to create a server?",
+    options: ["HTTP", "FS", "OS", "Path"],
+    answer: "HTTP",
+  },
+  {
+    question: "Which MongoDB operation is used to retrieve data?",
+    options: ["insertOne()", "updateOne()", "deleteOne()", "find()"],
+    answer: "find()",
+  },
+  {
+    question: "Which method in JavaScript is used to convert JSON data into a JavaScript object?",
+    options: ["JSON.parse()", "JSON.stringify()", "toObject()", "toJSON()"],
+    answer: "JSON.parse()",
+  },
+  {
+    question: "What is the default port used by React development server?",
+    options: ["8080", "3000", "5000", "8000"],
+    answer: "3000",
+  },
+  {
+    question: "Which command is used to create a new React app?",
+    options: [
+      "react-init",
+      "npm create-react-app",
+      "npx create-react-app",
+      "node-react-init",
+    ],
+    answer: "npx create-react-app",
+  },
+  {
+    question: "What is the purpose of Git in development?",
+    options: [
+      "Database Management",
+      "Version Control",
+      "UI Styling",
+      "Server Deployment",
+    ],
+    answer: "Version Control",
   },
 ];
 
-const QuizScreen = () => {
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+
+const QuizPage = () => {
+  const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
   const [score, setScore] = useState(0);
+  const [showModal, setShowModal] = useState(false);
 
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
   };
 
-  const handleSubmit = () => {
+  const handleNextQuestion = () => {
     if (selectedOption === null) {
-      Alert.alert('Please select an answer');
+      Alert.alert("No Selection", "Please select an option before proceeding.");
       return;
     }
 
-    if (selectedOption === questions[currentQuestionIndex].answer) {
+    if (selectedOption === quizQuestions[currentQuestion].answer) {
       setScore(score + 1);
     }
 
-    // Go to next question or finish quiz
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-      setSelectedOption(null); // Reset selected option
+    if (currentQuestion < quizQuestions.length - 1) {
+      setCurrentQuestion(currentQuestion + 1);
+      setSelectedOption(null);
     } else {
-      Alert.alert('Quiz Finished!', `Your score is: ${score + 1} / ${questions.length}`);
-      setScore(0); // Reset score for next quiz
-      setCurrentQuestionIndex(0); // Reset to the first question
+      setShowModal(true);
     }
   };
 
-  const goBack = () => {
-    if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(currentQuestionIndex - 1);
-      setSelectedOption(null); // Reset selected option
-    }
+  const handleRestartQuiz = () => {
+    setCurrentQuestion(0);
+    setSelectedOption(null);
+    setScore(0);
+    setShowModal(false);
   };
-
-  const currentQuestion = questions[currentQuestionIndex];
 
   return (
     <View style={styles.container}>
-      <Text style={styles.questionText}>{currentQuestion.question}</Text>
+      {/* Score Display */}
+      <View style={styles.scoreContainer}>
+        <Text style={styles.scoreText}>Score: {score}</Text>
+      </View>
 
-      {/* Progress Indicator */}
-      <Text style={styles.questionNumber}>
-        Question {currentQuestionIndex + 1} of {questions.length}
-      </Text>
+      {/* Question Section */}
+      <View style={styles.questionContainer}>
+        <Text style={styles.questionNumber}>
+          Question {currentQuestion + 1}/{quizQuestions.length}
+        </Text>
+        <Text style={styles.questionText}>
+          {quizQuestions[currentQuestion].question}
+        </Text>
+      </View>
 
       {/* Options */}
       <View style={styles.optionsContainer}>
-        {currentQuestion.options.map((option, index) => (
+        {quizQuestions[currentQuestion].options.map((option) => (
           <TouchableOpacity
-            key={index}
+            key={option}
             style={[
               styles.optionButton,
-              selectedOption === option ? styles.selectedOption : null,
+              selectedOption === option && styles.selectedOptionButton,
             ]}
             onPress={() => handleOptionSelect(option)}
           >
-            <Text style={styles.optionText}>{option}</Text>
+            <Text
+              style={[
+                styles.optionText,
+                selectedOption === option && styles.selectedOptionText,
+              ]}
+            >
+              {option}
+            </Text>
           </TouchableOpacity>
         ))}
       </View>
 
-      <View style={styles.buttonContainer}>
-        {/* Back Button */}
-        <TouchableOpacity style={styles.navigationButton} onPress={goBack}>
-          <Text style={styles.buttonText}>Back</Text>
-        </TouchableOpacity>
+      {/* Next or Submit Button */}
+      <TouchableOpacity
+        style={styles.nextButton}
+        onPress={handleNextQuestion}
+      >
+        <Text style={styles.nextButtonText}>
+          {currentQuestion === quizQuestions.length - 1 ? "Submit" : "Next"}
+        </Text>
+      </TouchableOpacity>
 
-        {/* Next/Submit Button */}
-        <TouchableOpacity
-          style={styles.submitButton}
-          onPress={handleSubmit}
-          activeOpacity={0.8}
-        >
-          <Text style={styles.submitButtonText}>
-            {currentQuestionIndex === questions.length - 1 ? 'Submit' : 'Next'}
-          </Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Score */}
-      <Text style={styles.scoreText}>Score: {score}</Text>
+      {/* Modal for Quiz Completion */}
+      <Modal
+        visible={showModal}
+        transparent={true}
+        animationType="slide"
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalTitle}>Quiz Completed!</Text>
+            <Text style={styles.modalText}>
+              Your score is {score}/{quizQuestions.length}
+            </Text>
+            <View style={styles.btnConatainer}> 
+            <TouchableOpacity
+              style={styles.restartButton}
+              onPress={handleRestartQuiz}
+            >
+              <Text style={styles.restartButtonText}>Restart Quiz</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setShowModal(false)}
+            >
+              <Text style={styles.closeButtonText}>Close</Text>
+            </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -111,88 +203,119 @@ const QuizScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     padding: 20,
-    backgroundColor: '#f0f4f8',
+    backgroundColor: "#f9f9f9",
+    paddingVertical:20
   },
-  questionText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
-    color: '#333',
+  scoreContainer: {
+    alignItems: "flex-end",
+  },
+  scoreText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
+  },
+  questionContainer: {
+    marginVertical: 20,
   },
   questionNumber: {
     fontSize: 16,
-    color: '#777',
-    marginBottom: 20,
+    color: "#555",
+    marginBottom: 10,
+  },
+  questionText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#333",
   },
   optionsContainer: {
-    width: '100%',
-    marginBottom: 20,
+    marginVertical: 20,
   },
   optionButton: {
-    backgroundColor: '#fff',
-    padding: 15,
-    borderRadius: 10,
-    marginVertical: 8,
-    borderWidth: 1,
-    borderColor: '#ddd',
-    elevation: 3, // for a slight shadow effect
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    backgroundColor: "#e0e0e0",
+    borderRadius: 8,
+    marginBottom: 10,
   },
-  selectedOption: {
-    backgroundColor: '#4CAF50',
-    borderColor: '#388E3C', // Darker green border when selected
+  selectedOptionButton: {
+    backgroundColor: "#007bff",
   },
   optionText: {
+    fontSize: 16,
+    color: "#333",
+  },
+  selectedOptionText: {
+    color: "#fff",
+  },
+  nextButton: {
+    position: "absolute",
+    bottom: 20,
+    left: 0,
+    right: 0,
+    paddingVertical: 15,
+    backgroundColor: "#28a745",
+    alignItems: "center",
+    marginHorizontal: 20,
+    borderRadius: 50,
+  },
+  nextButtonText: {
+    color: "#fff",
     fontSize: 18,
-    color: '#333',
-    textAlign: 'center',
+    fontWeight: "bold",
   },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-    marginTop: 20,
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
-  navigationButton: {
-    backgroundColor: '#bbb',
-    paddingVertical: 12,
+  modalContainer: {
+    width: "80%",
+    padding: 20,
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  modalTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 10,
+    color: "#333",
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 20,
+    color: "#555",
+  },
+  restartButton: {
+    backgroundColor: "#007bff",
+    paddingVertical: 10,
     paddingHorizontal: 20,
-    borderRadius: 25,
-    flex: 1,
-    marginRight: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    elevation: 5,
+    borderRadius: 8,
+    marginBottom: 10,
   },
-  submitButton: {
-    backgroundColor: '#2d87f0',
-    paddingVertical: 12,
-    paddingHorizontal: 30,
-    borderRadius: 25,
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    elevation: 5,
+  restartButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
+  closeButton: {
+    backgroundColor: "#6c757d",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginBottom: 10,
   },
-  submitButtonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
+  closeButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
-  scoreText: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: '#333',
-    marginTop: 30,
-  },
+  btnConatainer:{
+    flexDirection:"row",
+    gap:4
+  }
 });
 
-export default QuizScreen;
+export default QuizPage;

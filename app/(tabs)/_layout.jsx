@@ -45,13 +45,13 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <FontAwesome size={28} name="user" color={color} />,
         }}
       />
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="Leaderboard"
         options={{
           title: 'Leaderboard',
           tabBarIcon: ({ color }) => <FontAwesome size={28} name="bulb" color={color} />,
         }}
-      />
+      /> */}
       <Tabs.Screen
         name="community"
         options={{
