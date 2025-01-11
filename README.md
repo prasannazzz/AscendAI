@@ -1,3 +1,17 @@
+# AscendAI: React Native Learning Platform
+
+**AscendAI** is a learning platform built with React Native and Expo, designed to help users enhance their technical skills. It features interactive quizzes, curated videos, and a community-driven leaderboard to foster competition and learning.
+
+This app was developed during a hackathon to provide an immersive educational experience on mobile platforms.
+
+## Features
+- **Interactive Quizzes**: Test your knowledge with topic-specific quizzes.
+- **Curated Video Content**: Watch educational videos directly from YouTube.
+- **Skill Selection**: Choose and track specific skills and sub-skills.
+- **Community Engagement**: Follow other users and build a learning community.
+- **Leaderboard**: Compete with others to climb the ranks.
+- **Progress Tracking**: Monitor your course completion and score.
+
 # Welcome to your Expo app 👋
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
