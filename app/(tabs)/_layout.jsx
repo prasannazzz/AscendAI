@@ -6,39 +6,53 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: 'blue',
-        tabBarInactiveTintColor: 'gray',  
-        headerShown: false,  
+        tabBarInactiveTintColor: 'gray',
+        headerShown: false,
       }}
     >
+      {/* Home Tab */}
       <Tabs.Screen
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <FontAwesome size={28} name="home" color={color} />
+          ),
+        }}
+      />
+
+      
+
+      {/* Leaderboard Tab */}
+      <Tabs.Screen
+        name="Leaderboard"
+        options={{
+          title: 'Leaderboard',
+          tabBarIcon: ({ color }) => (
+            <FontAwesome size={28} name="trophy" color={color} />
+          ),
         }}
       />
       <Tabs.Screen
-        name="quiz"
+        name="Community"
         options={{
-          title: 'Quiz',
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="cog" color={color} />,
+          title: 'Community',
+          tabBarIcon: ({ color }) => (
+            <FontAwesome size={24} name="users" color={color} />
+          ),
         }}
       />
-       <Tabs.Screen
-        name="skills"
-        options={{
-          title: 'skills',
-          tabBarIcon: ({ color }) => <FontAwesome size={24} name="heart" color={color} />,  // Fixed icon name
-        }}
-      />
+
+      {/* Profile Tab */}
       <Tabs.Screen
-        name="learn"
+        name="profile"
         options={{
-          title: 'Learn',
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="book" color={color} />,
+          title: 'Profile',
+          tabBarIcon: ({ color }) => (
+            <FontAwesome size={28} name="user" color={color} />
+          ),
         }}
       />
-     
     </Tabs>
   );
 }
