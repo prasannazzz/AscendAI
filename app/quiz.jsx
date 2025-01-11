@@ -1,4 +1,5 @@
 import axios from "axios";
+import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -95,18 +96,24 @@ const QuizPage = () => {
     setSelectedOption(option);
   };
   // useEffect(() => {
-    // const fetchQuestions = async () => {
-    //   try {
-    //     const response = await axios.get(`http://localhost:5000/api/v1/questions/get-quiz`,{subskills})
-    //     console.log(response)
-    //     setQuestions(response)
-    //   } catch (error) {
-    //     setError('Error fetching quiz questions');
-    //     console.error(error);
-    //   }
-    // };
+    const fetchQuestions = async () => {
+      try {
+        const response = await axios(
+          {
+            method:'GET',
+            url:`http://localhost:5000/api/v1/questions/get-quiz`,
+            body:{subskills}
+          }).then((res)=>
+          {console.log(res)})
+          setQuestions(response)
+          console.log(response)
+      } catch (error) {
+        setError('Error fetching quiz questions');
+        console.error(error);
+      }
+    };
 
-    // fetchQuestions();
+    fetchQuestions();
   // }, []);
 
   const handleNextQuestion = () => {
@@ -123,7 +130,25 @@ const QuizPage = () => {
       setCurrentQuestion(currentQuestion + 1);
       setSelectedOption(null);
     } else {
-      setShowModal(true);
+      // Final score handling
+      if (score + 1 >= 8) {
+        // Show trophy for expert
+        Alert.alert(
+          "Congratulations!",
+          "You're an expert! 🏆",
+          [{ text: "OK", onPress: () => navigation.navigate("Home") }] // Replace "Home" with your trophy screen
+        );
+      } else if (score + 1 >= 4) {
+        // Redirect to Learn page
+        Alert.alert(
+          "Well Done!",
+          "Keep learning! Redirecting to the Learn page...",
+          [{ text: "OK", onPress: () => router.push("/learn") }]
+        );
+      } else {
+        // Default case (just show modal)
+        setShowModal(true);
+      }
     }
   };
 
